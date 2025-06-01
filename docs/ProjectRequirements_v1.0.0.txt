@@ -1,0 +1,294 @@
+Azure Trading System Requirements Document
+Executive Summary
+A real-time stock trading system that monitors NASDAQ stocks during pre-market hours (5:30-8:30 AM EST), identifies trading opportunities through a four-tier filtering system, and provides actionable entry/exit signals for day trading.
+System Overview
+Core Concept
+The system operates as a funnel, progressively filtering thousands of stocks down to a handful of high-probability trading opportunities. It processes real-time market data, applies technical analysis, and detects momentum shifts based on volume and price action patterns.
+Trading Philosophy
+
+Focus on pre-market momentum plays
+Exploit crowd psychology in high-volume situations
+	All configurable metrics.
+	- 5x relative volume from the low 20 sma on the day.
+	- An absolution metric such as 30k trades per minute
+	- Volume spikes where the volume more than doubles from the previous candle
+
+Capitalize on the inertia of large buyer/seller groups
+Target 2-5% gains per trade with strict risk management
+
+Functional Requirements
+1. Data Ingestion & Processing
+1.1 Market Data Source
+
+Connect to Polygon.io WebSocket for real-time market data
+Support both delayed (free) and real-time (paid) data feeds
+Handle multiple data types: aggregates, trades, quotes, and order book data
+
+1.2 Operating Hours
+
+Active trading window: 4:00 AM - 8:30 AM EST
+Automatic startup at 3:45 AM for system initialization
+Graceful shutdown at 8:35 AM with data persistence
+
+1.3 Data Storage Strategy
+
+Real-time cache for current market state and calculations
+Time-series database for historical analysis and pattern detection
+Configurable data retention policies based on tier classification
+
+2. Four-Tier Analysis System
+Tier 1: Universe Selection
+Purpose: Create initial watchlist from entire NASDAQ
+Filters:
+
+Price range: $0.30 - $10.00 (configurable)
+Float: Less than 40 million shares (configurable)
+Minimum average volume thresholds
+
+Data Collection:
+
+Refresh universe every 10 minutes
+Store: ticker, price, volume, high, low, close, float
+Data granularity: 1-minute bars (configurable down to 1 second)
+
+Output: List of 200-500 stocks meeting basic criteria
+Tier 2: Activity Detection
+Purpose: Identify stocks showing unusual activity
+Detection Criteria:
+
+Create a framework that can apply multiple rules
+Volume spike rule examples: 
+	3x normal volume (20 sma)
+	OR 2x or more voume rise from the previous candle.
+	OR 3x or more volume rise in any 3 candle timeframe.
+	OR Volume per minute equates to 20,000 or more.
+Stochastic Rule Examples
+	All below 20, any line jumps by 10 or more with 20k in volume - ENTER
+	All 3 jump by 20 or more - enter
+	All 2 of 3 Jump by 20 or more with volume - ENTER
+	All trades must follow a 60 point dip in the last 3 candles.
+Make Room for other types of rules as well.
+Price movement indicators
+News catalyst correlation
+
+Monitoring:
+
+Check every minute for volume anomalies
+Compare against 10-day average baselines
+Flag stocks meeting 2+ activity criteria
+
+Output: 20-50 stocks showing significant activity
+Tier 3: Technical Analysis
+Purpose: Deep technical analysis on active stocks
+Calculations:
+
+15-second MACD (fast: 5, slow: 13, signal: 8)
+Stochastic oscillators (9, 14, 40 periods)
+Volume profile analysis
+Momentum indicators
+Support/resistance levels
+
+Advanced Analysis:
+
+Microstructure analysis for trend reversals
+Order book imbalance detection
+Bid/ask spread analysis
+Large block trade identification
+
+Output: 5-10 stocks with strong technical setups
+Tier 4: Trade Signals
+Purpose: Generate specific entry and exit signals
+Signal Generation:
+
+Entry signals based on technical indicator confluence
+Momentum confirmation through order book analysis
+Exit signals for profit taking or stop loss
+Position sizing recommendations
+
+Risk Management:
+
+Maximum position size limits
+Stop loss calculations
+Profit target identification
+Trade quality scoring
+
+Output: 1-3 high-confidence trade recommendations
+3. Technical Indicators & Calculations
+Real-time Calculations
+
+15-second MACD for momentum detection
+Multi-timeframe analysis (15s, 1m, 5m)
+Volume-weighted average price (VWAP)
+Relative volume comparisons
+Price rate of change
+
+Pattern Recognition
+
+Opening range breakouts
+Momentum exhaustion patterns
+Volume accumulation/distribution
+Trend reversal signals
+
+4. Order Book Analysis
+Level 2 Data Processing
+
+Real-time bid/ask analysis
+Order book imbalance calculations
+Large order detection
+Support/resistance identification through order clustering
+
+Flow Analysis
+
+Track buying vs selling pressure
+Identify institutional order flow
+Detect hidden liquidity
+Monitor order book dynamics for trend confirmation
+
+5. Alert & Notification System
+Alert Types
+
+Volume spike alerts
+Technical breakout signals
+Momentum shift warnings
+Entry/exit recommendations
+
+Delivery Methods
+
+Real-time dashboard updates
+Push notifications
+Email alerts for critical signals
+Audio alerts for immediate action items
+
+6. Performance Tracking
+Trade Logging
+
+Entry/exit prices and timestamps
+Position sizes
+Profit/loss calculations
+Win rate tracking
+
+Analytics
+
+Strategy performance metrics
+Stock-specific success rates
+Time-of-day analysis
+Technical indicator effectiveness
+
+Non-Functional Requirements
+Performance
+
+Process 600+ events per second during peak times
+Sub-second latency for signal generation
+Support monitoring of 50 concurrent Tier 3/4 stocks
+Handle 1.15 million events per trading session
+
+Scalability
+
+Horizontal scaling for increased stock coverage
+Dynamic resource allocation based on market activity
+Configurable tier thresholds
+Modular architecture for feature additions
+
+Reliability
+
+99.9% uptime during trading hours
+Automatic reconnection for data feed disruptions
+Data persistence for system recovery
+Graceful degradation under high load
+
+Security
+
+Encrypted data transmission
+Secure credential storage
+API key rotation support
+Audit logging for all trades
+
+Technical Architecture Requirements
+Data Pipeline
+
+WebSocket connection management with automatic reconnection
+Data buffering for batch processing
+Real-time stream processing for Tier 3/4 stocks
+Efficient data serialization and compression
+
+Storage Architecture
+
+In-memory cache for sub-millisecond access
+Time-series database for historical analysis
+Optimized data structures for technical calculations
+Configurable retention policies
+
+Processing Framework
+
+Asynchronous processing for concurrent operations
+Event-driven architecture for real-time updates
+Microservices for tier-specific processing
+Message queue for component communication
+
+Monitoring & Observability
+
+System health dashboards
+Performance metrics tracking
+Error logging and alerting
+Resource utilization monitoring
+
+Configuration Requirements
+User-Configurable Parameters
+
+Price and float filters
+Volume multipliers and thresholds
+Technical indicator periods
+Alert sensitivity levels
+Position sizing rules
+
+System Configuration
+
+Data feed selection (delayed/real-time)
+Processing intervals
+Storage retention periods
+Resource allocation limits
+
+Integration Requirements
+External Services
+
+Polygon.io WebSocket API
+Market data REST APIs for supplementary data
+News API for catalyst detection
+Cloud storage for data archival
+
+Export Capabilities
+
+Trade history exports
+Performance reports
+Technical analysis data
+System configuration backups
+
+Deployment Requirements
+Environment
+
+Cloud-native deployment
+Container-based architecture
+Auto-scaling capabilities
+Multi-region support for redundancy
+
+Operational
+
+Automated startup/shutdown
+Health check endpoints
+Deployment rollback capabilities
+Configuration hot-reloading
+Backtesting framework
+
+Future Enhancements
+Planned Features
+
+Machine learning for pattern recognition
+
+Strategy optimization
+Multi-asset class support
+Expansion Possibilities
+
+Extended trading hours coverage
+Options flow analysis
+Social sentiment integration
+Automated trade execution

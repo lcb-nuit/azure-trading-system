@@ -1,0 +1,35 @@
+Can you list the websocket endpoint each item comes from?
+1. Volume Analysis (from Aggregates)
+Decreasing volume on red candles + Increasing volume on green candles
+Track v (volume) with c (close) vs o (open)
+If down moves have progressively less volume = sellers exhausted
+If small bounces have increasing volume = buyers stepping in
+2. Price Action Patterns (from Minute/Second Aggregates)
+Higher lows forming despite downtrend
+Compare sequential l (low) values
+Each pullback bottoms at higher price = support building
+Smaller red candles over time = selling pressure weakening
+3. RSI Divergence (from RSI endpoint)
+Price makes new low but RSI makes higher low
+When RSI is 30-40 while price drops = oversold bounce likely
+RSI climbing while price flat/down = momentum shifting
+4. MACD Convergence (from MACD endpoint)
+MACD line approaching signal line from below
+Histogram bars getting smaller = momentum slowing
+MACD curling up = potential reversal
+5. Bid/Ask Dynamics (from Quotes WebSocket)
+Bid size increasing while ask size decreasing during downtrend
+Growing bid support = buyers accumulating
+Shrinking ask pressure = sellers exhausted
+Spread tightening = equilibrium near
+https://polygon.io/docs/websocket/stocks/aggregates-per-minute
+https://polygon.io/docs/websocket/stocks/aggregates-per-second
+https://polygon.io/docs/websocket/stocks/quotes
+https://polygon.io/docs/websocket/stocks/trades
+https://polygon.io/docs/rest/stocks/tickers/all-tickers
+https://polygon.io/docs/rest/stocks/tickers/ticker-overview
+https://polygon.io/docs/rest/stocks/snapshots/full-market-snapshot
+https://polygon.io/docs/rest/stocks/technical-indicators/simple-moving-average
+https://polygon.io/docs/rest/stocks/technical-indicators/exponential-moving-average
+https://polygon.io/docs/rest/stocks/technical-indicators/relative-strength-index
+https://polygon.io/docs/rest/stocks/technical-indicators/moving-average-convergence-divergence

@@ -1,0 +1,756 @@
+# Azure Trading System Requirements & Implementation Plan (C#)
+
+## System Overview
+
+A high-performance trading system built on Azure infrastructure using C# for real-time market data processing, technical analysis, and signal generation.
+
+## Architecture Overview
+
+```
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│  Polygon.io     │────▶│ Container       │────▶│  Azure Cache    │
+│  WebSocket      │     │ Instance (C#)   │     │  for Redis      │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+                                │                         │
+                                ▼                         ▼
+                        ┌─────────────────┐     ┌─────────────────┐
+                        │  Azure Data     │◀────│ Tier Processing │
+                        │  Explorer       │     │  Logic (C#)     │
+                        └─────────────────┘     └─────────────────┘
+```
+
+## Functional Requirements
+
+### Tier 1: Stock Universe Management
+
+**Purpose**: Maintain eligible stocks for trading based on price and float criteria
+
+**Requirements**:
+- Filter NASDAQ stocks: Price $0.30-$10.00, Float < 40M shares
+- Refresh every 10 minutes during trading hours
+- Cache current universe in Redis for low-latency access
+- Store historical universe data in ADX
+
+**Implementation**:
+```csharp
+public class StockUniverseService
+{
+    private readonly IPolygonClient _polygonClient;
+    private readonly IConnectionMultiplexer _redis;
+    private readonly IKustoClient _kustoClient;
+    
+    public async Task<List<Stock>> RefreshUniverseAsync()
+    {
+        var stocks = await _polygonClient.GetNasdaqStocksAsync();
+        
+        var eligibleStocks = stocks
+            .Where(s => s.Price >= 0.30m && s.Price <= 10.00m)
+            .Where(s => s.FloatShares < 40_000_000)
+            .ToList();
+            
+        // Cache in Redis
+        await CacheUniverseAsync(eligibleStocks);
+        
+        // Store in ADX
+        await StoreUniverseHistoryAsync(eligibleStocks);
+        
+        return eligibleStocks;
+    }
+}
+```
+
+### Tier 2: Activity Monitoring
+
+**Purpose**: Identify stocks with unusual trading activity
+
+**Requirements**:
+- Volume > 3x 10-day average OR > 20,000 shares/minute
+- Price momentum detection
+- Real-time alerts on activity spikes
+
+**Implementation**:
+```csharp
+public class ActivityMonitorService
+{
+    public async Task<List<ActivityAlert>> DetectAnomaliesAsync()
+    {
+        var query = @"
+            stock_data
+            | where timestamp > ago(1m)
+            | summarize 
+                current_volume = sum(volume),
+                avg_volume_baseline = avg(volume) 
+                    over (partition by ticker range timestamp from -10d to -1d)
+            | where current_volume > 3 * avg_volume_baseline or current_volume > 20000
+            | project ticker, volume_ratio = current_volume/avg_volume_baseline";
+            
+        return await _kustoClient.ExecuteQueryAsync<ActivityAlert>(query);
+    }
+}
+```
+
+### Tier 3: Technical Analysis
+
+**Purpose**: Calculate real-time technical indicators
+
+**Requirements**:
+- 15-second MACD (9,12,26 periods)
+- Stochastic Oscillator (9,14,40)
+- Momentum scoring algorithm
+- Pattern detection
+
+**Implementation**:
+```csharp
+public class TechnicalAnalysisService
+{
+    private readonly IRedisDatabase _cache;
+    
+    public async Task<TechnicalIndicators> CalculateIndicatorsAsync(string ticker)
+    {
+        var priceData = await GetPriceHistoryAsync(ticker, TimeSpan.FromMinutes(5));
+        
+        var indicators = new TechnicalIndicators
+        {
+            MACD = CalculateMACD(priceData, 9, 12, 26),
+            Stochastic = CalculateStochastic(priceData, 9, 14, 40),
+            MomentumScore = CalculateMomentum(priceData),
+            Patterns = DetectPatterns(priceData)
+        };
+        
+        await _cache.StringSetAsync($"indicators:{ticker}", 
+            JsonSerializer.Serialize(indicators), 
+            TimeSpan.FromSeconds(15));
+            
+        return indicators;
+    }
+}
+```
+
+### Tier 4: Signal Generation & Execution
+
+**Purpose**: Generate and manage trading signals
+
+**Requirements**:
+- Entry signals: MACD cross + Stochastic < 80
+- Exit signals: MACD reverse cross OR Stochastic > 80
+- Confidence scoring
+- Signal persistence and tracking
+
+**Implementation**:
+```csharp
+public class SignalGenerationService
+{
+    public async Task<TradeSignal> GenerateSignalAsync(
+        string ticker, 
+        TechnicalIndicators indicators)
+    {
+        var signal = new TradeSignal
+        {
+            Timestamp = DateTime.UtcNow,
+            Ticker = ticker,
+            Type = DetermineSignalType(indicators),
+            Confidence = CalculateConfidence(indicators)
+        };
+        
+        if (signal.Type != SignalType.Hold)
+        {
+            await StoreSignalAsync(signal);
+        }
+        
+        return signal;
+    }
+    
+    private SignalType DetermineSignalType(TechnicalIndicators indicators)
+    {
+        if (indicators.MACD.CrossoverUp && indicators.Stochastic.K < 80)
+            return SignalType.EntryLong;
+        
+        if (indicators.MACD.CrossoverDown || indicators.Stochastic.K > 80)
+            return SignalType.Exit;
+            
+        return SignalType.Hold;
+    }
+}
+```
+
+## Technical Implementation
+
+### 1. Project Structure
+```
+TradingSystem/
+├── src/
+│   ├── TradingSystem.Core/
+│   │   ├── Models/
+│   │   ├── Interfaces/
+│   │   └── Configuration/
+│   ├── TradingSystem.DataIngestion/
+│   │   ├── PolygonWebSocketClient.cs
+│   │   ├── RedisCache.cs
+│   │   └── AdxWriter.cs
+│   ├── TradingSystem.Analysis/
+│   │   ├── StockUniverseService.cs
+│   │   ├── ActivityMonitorService.cs
+│   │   ├── TechnicalAnalysisService.cs
+│   │   └── SignalGenerationService.cs
+│   ├── TradingSystem.Functions/
+│   │   └── SchedulerFunctions.cs
+│   └── TradingSystem.Container/
+│       ├── Program.cs
+│       └── Dockerfile
+├── tests/
+│   └── TradingSystem.Tests/
+└── infrastructure/
+    ├── main.bicep
+    └── parameters.json
+```
+
+### 2. Container Application (Program.cs)
+```csharp
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
+
+var host = Host.CreateDefaultBuilder(args)
+    .ConfigureServices((context, services) =>
+    {
+        // Configuration
+        services.Configure<TradingConfiguration>(
+            context.Configuration.GetSection("Trading"));
+        
+        // Redis
+        services.AddSingleton<IConnectionMultiplexer>(sp =>
+            ConnectionMultiplexer.Connect(
+                context.Configuration.GetConnectionString("Redis")));
+        
+        // Azure Data Explorer
+        services.AddSingleton<ICslQueryProvider>(sp =>
+        {
+            var kustoUri = context.Configuration["Kusto:ClusterUri"];
+            var kustoDb = context.Configuration["Kusto:Database"];
+            return KustoClientFactory.CreateCslQueryProvider(
+                new KustoConnectionStringBuilder(kustoUri, kustoDb)
+                    .WithAadManagedIdentity());
+        });
+        
+        // Services
+        services.AddSingleton<IPolygonWebSocketClient, PolygonWebSocketClient>();
+        services.AddScoped<IStockUniverseService, StockUniverseService>();
+        services.AddScoped<IActivityMonitorService, ActivityMonitorService>();
+        services.AddScoped<ITechnicalAnalysisService, TechnicalAnalysisService>();
+        services.AddScoped<ISignalGenerationService, SignalGenerationService>();
+        
+        // Hosted Services
+        services.AddHostedService<MarketDataIngestionService>();
+        services.AddHostedService<TierProcessingService>();
+    })
+    .Build();
+
+await host.RunAsync();
+```
+
+### 3. WebSocket Client Implementation
+```csharp
+public class PolygonWebSocketClient : IPolygonWebSocketClient
+{
+    private ClientWebSocket _webSocket;
+    private readonly ILogger<PolygonWebSocketClient> _logger;
+    private readonly string _apiKey;
+    private readonly SemaphoreSlim _sendLock = new(1, 1);
+    
+    public async Task ConnectAsync()
+    {
+        _webSocket = new ClientWebSocket();
+        var uri = new Uri($"wss://socket.polygon.io/stocks?apikey={_apiKey}");
+        
+        await _webSocket.ConnectAsync(uri, CancellationToken.None);
+        _logger.LogInformation("Connected to Polygon WebSocket");
+        
+        // Authenticate
+        await SendMessageAsync(new { action = "auth", params = _apiKey });
+    }
+    
+    public async Task SubscribeToTickersAsync(List<string> tickers)
+    {
+        var message = new
+        {
+            action = "subscribe",
+            params = string.Join(",", tickers.Select(t => $"T.{t}"))
+        };
+        
+        await SendMessageAsync(message);
+    }
+    
+    public async Task<MarketData> ReceiveAsync(CancellationToken cancellationToken)
+    {
+        var buffer = new ArraySegment<byte>(new byte[4096]);
+        var result = await _webSocket.ReceiveAsync(buffer, cancellationToken);
+        
+        if (result.MessageType == WebSocketMessageType.Text)
+        {
+            var json = Encoding.UTF8.GetString(buffer.Array, 0, result.Count);
+            return JsonSerializer.Deserialize<MarketData>(json);
+        }
+        
+        return null;
+    }
+}
+```
+
+### 4. Azure Functions Scheduler
+```csharp
+public class SchedulerFunctions
+{
+    private readonly IContainerInstanceService _containerService;
+    private readonly IStockUniverseService _universeService;
+    
+    [FunctionName("StartTradingSystem")]
+    public async Task StartTradingSystem(
+        [TimerTrigger("0 25 5 * * *")] TimerInfo timer,
+        ILogger log)
+    {
+        log.LogInformation("Starting trading system at 5:25 AM");
+        await _containerService.StartContainerGroupAsync("trading-websocket");
+    }
+    
+    [FunctionName("StopTradingSystem")]
+    public async Task StopTradingSystem(
+        [TimerTrigger("0 35 8 * * *")] TimerInfo timer,
+        ILogger log)
+    {
+        log.LogInformation("Stopping trading system at 8:35 AM");
+        await _containerService.StopContainerGroupAsync("trading-websocket");
+    }
+    
+    [FunctionName("RefreshStockUniverse")]
+    public async Task RefreshStockUniverse(
+        [TimerTrigger("0 */10 5-8 * * *")] TimerInfo timer,
+        ILogger log)
+    {
+        log.LogInformation("Refreshing stock universe");
+        var stocks = await _universeService.RefreshUniverseAsync();
+        log.LogInformation($"Updated universe with {stocks.Count} stocks");
+    }
+}
+```
+
+### 5. Data Models
+```csharp
+public class Stock
+{
+    public string Ticker { get; set; }
+    public decimal Price { get; set; }
+    public long Volume { get; set; }
+    public decimal High { get; set; }
+    public decimal Low { get; set; }
+    public decimal Close { get; set; }
+    public long FloatShares { get; set; }
+}
+
+public class TechnicalIndicators
+{
+    public MACDResult MACD { get; set; }
+    public StochasticResult Stochastic { get; set; }
+    public decimal MomentumScore { get; set; }
+    public List<Pattern> Patterns { get; set; }
+}
+
+public class TradeSignal
+{
+    public DateTime Timestamp { get; set; }
+    public string Ticker { get; set; }
+    public SignalType Type { get; set; }
+    public decimal Confidence { get; set; }
+    public TechnicalIndicators Indicators { get; set; }
+}
+
+public enum SignalType
+{
+    Hold,
+    EntryLong,
+    Exit
+}
+```
+
+## Infrastructure Configuration
+
+### 1. Azure Resource Deployment (Bicep)
+```bicep
+param location string = resourceGroup().location
+param environmentName string = 'prod'
+
+// Redis Cache
+resource redisCache 'Microsoft.Cache/redis@2023-08-01' = {
+  name: 'trading-cache-${environmentName}'
+  location: location
+  properties: {
+    sku: {
+      name: 'Basic'
+      family: 'C'
+      capacity: 0
+    }
+    enableNonSslPort: false
+    minimumTlsVersion: '1.2'
+  }
+}
+
+// Azure Data Explorer
+resource kustoCluster 'Microsoft.Kusto/clusters@2023-08-15' = {
+  name: 'tradingadx${environmentName}'
+  location: location
+  sku: {
+    name: 'Dev(No SLA)_Standard_D11_v2'
+    tier: 'Basic'
+    capacity: 2
+  }
+  properties: {
+    enableStreamingIngest: true
+    enablePurge: true
+  }
+}
+
+resource kustoDatabase 'Microsoft.Kusto/clusters/databases@2023-08-15' = {
+  parent: kustoCluster
+  name: 'trading_db'
+  location: location
+  kind: 'ReadWrite'
+  properties: {
+    softDeletePeriod: 'P7D'
+    hotCachePeriod: 'P1D'
+  }
+}
+
+// Container Registry
+resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-07-01' = {
+  name: 'tradingacr${environmentName}'
+  location: location
+  sku: {
+    name: 'Basic'
+  }
+  properties: {
+    adminUserEnabled: true
+  }
+}
+
+// Function App
+resource functionApp 'Microsoft.Web/sites@2023-01-01' = {
+  name: 'trading-functions-${environmentName}'
+  location: location
+  kind: 'functionapp'
+  properties: {
+    serverFarmId: appServicePlan.id
+    siteConfig: {
+      netFrameworkVersion: 'v6.0'
+      appSettings: [
+        {
+          name: 'FUNCTIONS_RUNTIME'
+          value: 'dotnet'
+        }
+        {
+          name: 'RedisConnection'
+          value: redisCache.properties.hostName
+        }
+        {
+          name: 'KustoUri'
+          value: kustoCluster.properties.uri
+        }
+      ]
+    }
+  }
+}
+```
+
+### 2. Container Configuration (Dockerfile)
+```dockerfile
+FROM mcr.microsoft.com/dotnet/runtime:8.0 AS base
+WORKDIR /app
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY ["TradingSystem.Container/TradingSystem.Container.csproj", "TradingSystem.Container/"]
+COPY ["TradingSystem.Core/TradingSystem.Core.csproj", "TradingSystem.Core/"]
+COPY ["TradingSystem.DataIngestion/TradingSystem.DataIngestion.csproj", "TradingSystem.DataIngestion/"]
+COPY ["TradingSystem.Analysis/TradingSystem.Analysis.csproj", "TradingSystem.Analysis/"]
+RUN dotnet restore "TradingSystem.Container/TradingSystem.Container.csproj"
+COPY . .
+WORKDIR "/src/TradingSystem.Container"
+RUN dotnet build "TradingSystem.Container.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "TradingSystem.Container.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "TradingSystem.Container.dll"]
+```
+
+### 3. ADX Table Schemas
+```kql
+// Stock Universe Table
+.create table stock_universe (
+    timestamp: datetime,
+    ticker: string,
+    price: real,
+    volume: long,
+    high: real,
+    low: real,
+    close: real,
+    float_shares: long
+)
+
+// Market Data Table
+.create table market_data (
+    timestamp: datetime,
+    ticker: string,
+    price: real,
+    volume: long,
+    bid: real,
+    ask: real,
+    vwap: real
+)
+
+// Trade Signals Table
+.create table trade_signals (
+    timestamp: datetime,
+    ticker: string,
+    tier: int,
+    signal_type: string,
+    macd: real,
+    stochastic: real,
+    volume_ratio: real,
+    confidence: real
+)
+
+// Create Update Policies
+.alter table market_data policy update 
+@'[{"Source": "market_data_staging", "Query": "market_data_transform()", "IsEnabled": true}]'
+
+// Create Retention Policies
+.alter table market_data policy retention 
+```
+{
+    "SoftDeletePeriod": "30.00:00:00",
+    "Recoverability": "Enabled"
+}
+```
+
+### 4. Application Configuration (appsettings.json)
+```json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "ConnectionStrings": {
+    "Redis": "trading-cache.redis.cache.windows.net:6380,password=xxx,ssl=True,abortConnect=False"
+  },
+  "Kusto": {
+    "ClusterUri": "https://tradingadx.eastus.kusto.windows.net",
+    "Database": "trading_db"
+  },
+  "Polygon": {
+    "ApiKey": "your-api-key-here",
+    "WebSocketUrl": "wss://socket.polygon.io/stocks"
+  },
+  "Trading": {
+    "UniverseRefreshIntervalMinutes": 10,
+    "TechnicalIndicatorPeriodSeconds": 15,
+    "MaxConcurrentStocks": 100,
+    "SignalConfidenceThreshold": 0.75
+  }
+}
+```
+
+## Deployment Instructions
+
+### 1. Infrastructure Deployment
+```bash
+# Deploy Bicep template
+az deployment group create \
+  --resource-group trading-system-rg \
+  --template-file infrastructure/main.bicep \
+  --parameters environmentName=prod
+
+# Build and push container image
+az acr build \
+  --registry tradingacrprod \
+  --image trading-client:latest \
+  --file TradingSystem.Container/Dockerfile .
+```
+
+### 2. Container Instance Deployment
+```yaml
+# container-instance.yaml
+apiVersion: 2019-12-01
+location: eastus
+name: trading-websocket
+properties:
+  containers:
+  - name: polygon-client
+    properties:
+      image: tradingacrprod.azurecr.io/trading-client:latest
+      resources:
+        requests:
+          cpu: 0.5
+          memoryInGb: 1
+      environmentVariables:
+      - name: POLYGON_API_KEY
+        secureValue: ${POLYGON_API_KEY}
+      - name: ConnectionStrings__Redis
+        value: ${REDIS_CONNECTION}
+      - name: Kusto__ClusterUri
+        value: https://tradingadxprod.eastus.kusto.windows.net
+      - name: Kusto__Database
+        value: trading_db
+  osType: Linux
+  restartPolicy: Always
+  identity:
+    type: SystemAssigned
+```
+
+### 3. Deploy Container Instance
+```bash
+az container create \
+  --resource-group trading-system-rg \
+  --file container-instance.yaml
+```
+
+## Cost Optimization
+
+### Monthly Cost Breakdown
+
+| Service | Configuration | Monthly Cost |
+|---------|--------------|--------------|
+| Azure Cache for Redis | Basic C0 (250MB) | $23.00 |
+| Azure Data Explorer | Dev/Test D11_v2 (2 instances) | $17.00 |
+| Container Instance | 0.5 vCPU, 1GB RAM (3.17 hrs/day) | $2.71 |
+| Azure Functions | Consumption Plan | $0.00 |
+| **Total** | | **$42.71/month** |
+
+### Cost Optimization Strategies
+
+1. **Container Scheduling**: Run only during market hours (5:25 AM - 8:35 AM)
+2. **ADX Dev/Test SKU**: Use for non-production workloads
+3. **Redis Basic Tier**: Sufficient for caching requirements
+4. **Function Consumption Plan**: Pay only for executions
+
+## Performance Optimization
+
+### 1. Redis Caching Strategy
+```csharp
+public class CachingStrategy
+{
+    // Use Redis data structures efficiently
+    public async Task CacheTickerDataAsync(string ticker, MarketData data)
+    {
+        var key = $"ticker:{ticker}";
+        var pipeline = _redis.CreateBatch();
+        
+        // Use hash for structured data
+        pipeline.HashSetAsync(key, "price", data.Price);
+        pipeline.HashSetAsync(key, "volume", data.Volume);
+        pipeline.HashSetAsync(key, "timestamp", data.Timestamp.Ticks);
+        
+        // Set expiration
+        pipeline.KeyExpireAsync(key, TimeSpan.FromSeconds(30));
+        
+        pipeline.Execute();
+    }
+}
+```
+
+### 2. ADX Query Optimization
+```kql
+// Use materialized views for frequently accessed data
+.create materialized-view ActiveStocksView on table market_data
+{
+    market_data
+    | where timestamp > ago(10m)
+    | summarize 
+        latest_price = arg_max(timestamp, price),
+        total_volume = sum(volume),
+        price_volatility = stdev(price)
+        by ticker
+}
+
+// Use partitioning for better performance
+.alter table market_data policy partitioning 
+```
+{
+    "PartitionKeys": [
+        {
+            "ColumnName": "timestamp",
+            "Kind": "UniformRange",
+            "Properties": {
+                "Reference": "2024-01-01T00:00:00",
+                "RangeSize": "1.00:00:00",
+                "OverrideCreationTime": false
+            }
+        }
+    ]
+}
+```
+
+## Monitoring and Alerting
+
+### 1. Application Insights Integration
+```csharp
+public class TelemetryService
+{
+    private readonly TelemetryClient _telemetryClient;
+    
+    public void TrackSignalGenerated(TradeSignal signal)
+    {
+        _telemetryClient.TrackEvent("SignalGenerated", new Dictionary<string, string>
+        {
+            ["Ticker"] = signal.Ticker,
+            ["SignalType"] = signal.Type.ToString(),
+            ["Confidence"] = signal.Confidence.ToString("F2")
+        });
+    }
+    
+    public void TrackLatency(string operation, double milliseconds)
+    {
+        _telemetryClient.TrackMetric($"{operation}.Latency", milliseconds);
+    }
+}
+```
+
+### 2. Health Checks
+```csharp
+public class HealthChecks
+{
+    [FunctionName("HealthCheck")]
+    public async Task<IActionResult> Run(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "health")] 
+        HttpRequest req)
+    {
+        var checks = new
+        {
+            Redis = await CheckRedisAsync(),
+            ADX = await CheckADXAsync(),
+            WebSocket = CheckWebSocketConnection()
+        };
+        
+        return new OkObjectResult(checks);
+    }
+}
+```
+
+## Security Considerations
+
+1. **Managed Identity**: Use for all Azure service authentication
+2. **Key Vault**: Store sensitive configuration (API keys)
+3. **Network Security**: Implement VNet integration for services
+4. **RBAC**: Implement role-based access control
+
+## Next Steps
+
+1. Implement backtesting framework
+2. Add machine learning models for signal enhancement
+3. Implement portfolio risk management
+4. Add real-time dashboard using SignalR
+5. Implement automated trade execution integration

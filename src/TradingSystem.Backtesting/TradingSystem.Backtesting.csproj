@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\TradingSystem.Core\TradingSystem.Core.csproj" />
+    <ProjectReference Include="..\TradingSystem.Analysis\TradingSystem.Analysis.csproj" />
+    <ProjectReference Include="..\TradingSystem.DataIngestion\TradingSystem.DataIngestion.csproj" />
+    <ProjectReference Include="..\TradingSystem.Functions\TradingSystem.Functions.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

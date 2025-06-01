@@ -1,0 +1,6 @@
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Container\obj\Debug\net9.0\TradingSystem.Container.GeneratedMSBuildEditorConfig.editorconfig
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Container\obj\Debug\net9.0\TradingSystem.Container.AssemblyInfoInputs.cache
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Container\obj\Debug\net9.0\TradingSystem.Container.AssemblyInfo.cs
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Container\obj\Debug\net9.0\TradingSystem.Container.csproj.CoreCompileInputs.cache
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Container\obj\Debug\net9.0\TradingSystem.Container.sourcelink.json
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Container\obj\Debug\net9.0\TradingSystem.Container.csproj.AssemblyReference.cache

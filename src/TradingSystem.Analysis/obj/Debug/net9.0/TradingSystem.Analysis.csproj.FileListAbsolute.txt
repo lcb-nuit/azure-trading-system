@@ -1,0 +1,5 @@
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Analysis\obj\Debug\net9.0\TradingSystem.Analysis.GeneratedMSBuildEditorConfig.editorconfig
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Analysis\obj\Debug\net9.0\TradingSystem.Analysis.AssemblyInfoInputs.cache
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Analysis\obj\Debug\net9.0\TradingSystem.Analysis.AssemblyInfo.cs
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Analysis\obj\Debug\net9.0\TradingSystem.Analysis.csproj.CoreCompileInputs.cache
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Analysis\obj\Debug\net9.0\TradingSystem.Analysis.sourcelink.json

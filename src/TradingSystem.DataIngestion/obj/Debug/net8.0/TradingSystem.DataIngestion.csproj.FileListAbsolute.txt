@@ -1,0 +1,6 @@
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.DataIngestion\obj\Debug\net8.0\TradingSystem.DataIngestion.csproj.AssemblyReference.cache
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.DataIngestion\obj\Debug\net8.0\TradingSystem.DataIngestion.GeneratedMSBuildEditorConfig.editorconfig
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.DataIngestion\obj\Debug\net8.0\TradingSystem.DataIngestion.AssemblyInfoInputs.cache
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.DataIngestion\obj\Debug\net8.0\TradingSystem.DataIngestion.AssemblyInfo.cs
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.DataIngestion\obj\Debug\net8.0\TradingSystem.DataIngestion.csproj.CoreCompileInputs.cache
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.DataIngestion\obj\Debug\net8.0\TradingSystem.DataIngestion.sourcelink.json

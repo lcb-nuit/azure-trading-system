@@ -1,0 +1,12 @@
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Functions\bin\Debug\net9.0\TradingSystem.Functions.deps.json
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Functions\bin\Debug\net9.0\TradingSystem.Functions.dll
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Functions\bin\Debug\net9.0\TradingSystem.Functions.pdb
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Functions\obj\Debug\net9.0\TradingSystem.Functions.GeneratedMSBuildEditorConfig.editorconfig
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Functions\obj\Debug\net9.0\TradingSystem.Functions.AssemblyInfoInputs.cache
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Functions\obj\Debug\net9.0\TradingSystem.Functions.AssemblyInfo.cs
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Functions\obj\Debug\net9.0\TradingSystem.Functions.csproj.CoreCompileInputs.cache
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Functions\obj\Debug\net9.0\TradingSystem.Functions.sourcelink.json
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Functions\obj\Debug\net9.0\TradingSystem.Functions.dll
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Functions\obj\Debug\net9.0\refint\TradingSystem.Functions.dll
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Functions\obj\Debug\net9.0\TradingSystem.Functions.pdb
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Functions\obj\Debug\net9.0\ref\TradingSystem.Functions.dll

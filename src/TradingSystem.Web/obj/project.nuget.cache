@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "dgSpecHash": "/o4E2dt/khY=",
+  "success": false,
+  "projectFilePath": "C:\\_DEVELOPMENT\\VSCODE\\AZURE\\azure-trading-system\\src\\TradingSystem.Web\\TradingSystem.Web.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project TradingSystem.Core is not compatible with net8.0 (.NETCoreApp,Version=v8.0). Project TradingSystem.Core supports: net9.0 (.NETCoreApp,Version=v9.0)",
+      "libraryId": "TradingSystem.Core",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project TradingSystem.Backtesting is not compatible with net8.0 (.NETCoreApp,Version=v8.0). Project TradingSystem.Backtesting supports: net9.0 (.NETCoreApp,Version=v9.0)",
+      "libraryId": "TradingSystem.Backtesting",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
+}

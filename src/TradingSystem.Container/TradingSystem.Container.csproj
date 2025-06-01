@@ -2,9 +2,17 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TradingSystem.Core\TradingSystem.Core.csproj" />
+    <ProjectReference Include="..\TradingSystem.DataIngestion\TradingSystem.DataIngestion.csproj" />
+    <ProjectReference Include="..\TradingSystem.Analysis\TradingSystem.Analysis.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
+  </ItemGroup>
 
 </Project>

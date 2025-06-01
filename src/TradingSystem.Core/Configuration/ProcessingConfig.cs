@@ -16,11 +16,11 @@ namespace TradingSystem.Core.Configuration
         public int TechnicalAnalysisIntervalMs { get; set; }
         public int SignalGenerationIntervalMs { get; set; }
         public bool AlertEnabled { get; set; }
-        public string AlertEmail { get; set; }
-        public string AlertSlackWebhook { get; set; }
+        public required string AlertEmail { get; set; }
+        public required string AlertSlackWebhook { get; set; }
         public int AlertVolumeThreshold { get; set; }
         public int AlertLatencyThresholdMs { get; set; }
-        public string LogLevel { get; set; }
+        public required string LogLevel { get; set; }
         public int MaxErrorCountBeforeAlert { get; set; }
         public bool DeadLetterQueueEnabled { get; set; }
     }

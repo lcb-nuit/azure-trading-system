@@ -6,6 +6,6 @@ namespace TradingSystem.Analysis
 {
     public class SignalGenerationService : ISignalGenerationService
     {
-        public Task<TradeSignal> GenerateSignalAsync(string ticker, TechnicalIndicators indicators) => Task.FromResult(new TradeSignal());
+        public Task<TradeSignal> GenerateSignalAsync(string ticker, TechnicalIndicators indicators) => Task.FromResult(new TradeSignal { Ticker = ticker });
     }
 } 

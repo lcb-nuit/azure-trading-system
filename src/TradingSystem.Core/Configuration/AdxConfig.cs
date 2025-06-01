@@ -2,7 +2,7 @@ namespace TradingSystem.Core.Configuration
 {
     public class AdxConfig
     {
-        public string ClusterUri { get; set; }
-        public string Database { get; set; }
+        public required string ClusterUri { get; set; }
+        public required string Database { get; set; }
     }
 } 

@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net8.0": {
+    "net9.0": {
       "coverlet.collector/6.0.2": {
         "type": "package",
         "build": {
@@ -414,7 +414,7 @@
       },
       "TradingSystem.Core/1.0.0": {
         "type": "project",
-        "framework": ".NETCoreApp,Version=v8.0",
+        "framework": ".NETCoreApp,Version=v9.0",
         "compile": {
           "bin/placeholder/TradingSystem.Core.dll": {}
         },
@@ -950,7 +950,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net8.0": [
+    "net9.0": [
       "Microsoft.NET.Test.Sdk >= 17.12.0",
       "TradingSystem.Core >= 1.0.0",
       "coverlet.collector >= 6.0.2",
@@ -980,7 +980,7 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net8.0"
+        "net9.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -988,8 +988,8 @@
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
+        "net9.0": {
+          "targetAlias": "net9.0",
           "projectReferences": {
             "C:\\_DEVELOPMENT\\VSCODE\\AZURE\\azure-trading-system\\src\\TradingSystem.Core\\TradingSystem.Core.csproj": {
               "projectPath": "C:\\_DEVELOPMENT\\VSCODE\\AZURE\\azure-trading-system\\src\\TradingSystem.Core\\TradingSystem.Core.csproj"
@@ -1010,8 +1010,8 @@
       "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
-      "net8.0": {
-        "targetAlias": "net8.0",
+      "net9.0": {
+        "targetAlias": "net9.0",
         "dependencies": {
           "Microsoft.NET.Test.Sdk": {
             "target": "Package",

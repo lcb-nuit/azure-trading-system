@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using TradingSystem.Core.Interfaces;
 using TradingSystem.DataIngestion;
 using TradingSystem.Analysis;
+using TradingSystem.Core.Models; 
 using Microsoft.Extensions.Configuration;
 using TradingSystem.Core.Configuration;
 using System;

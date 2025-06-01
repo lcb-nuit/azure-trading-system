@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using Microsoft.Azure.Kusto.Data;
-using Microsoft.Azure.Kusto.Ingest;
+using Kusto.Data;
+using Kusto.Ingest;
+using Kusto.Data.Common;
+using Kusto.Data.Net.Client;
 using TradingSystem.Core.Interfaces;
 using TradingSystem.Core.Configuration;
 using TradingSystem.Core.Models;
@@ -110,20 +112,23 @@ namespace TradingSystem.DataIngestion
 
         public async Task<List<Dictionary<string, object>>> QueryAsync(string kustoQuery)
         {
-            var results = new List<Dictionary<string, object>>();
-            var kcsb = new KustoConnectionStringBuilder(_config.ClusterUri);
-            using var queryProvider = KustoClientFactory.CreateCslQueryProvider(kcsb);
-            using var reader = queryProvider.ExecuteQuery(_database, kustoQuery);
-            while (reader.Read())
+            return await Task.Run(() =>
             {
-                var row = new Dictionary<string, object>();
-                for (int i = 0; i < reader.FieldCount; i++)
+                var results = new List<Dictionary<string, object>>();
+                var kcsb = new KustoConnectionStringBuilder(_config.ClusterUri);
+                using var queryProvider = KustoClientFactory.CreateCslQueryProvider(kcsb);
+                using var reader = queryProvider.ExecuteQuery(_database, kustoQuery, new ClientRequestProperties());
+                while (reader.Read())
                 {
-                    row[reader.GetName(i)] = reader.GetValue(i);
+                    var row = new Dictionary<string, object>();
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        row[reader.GetName(i)] = reader.GetValue(i);
+                    }
+                    results.Add(row);
                 }
-                results.Add(row);
-            }
-            return results;
+                return results;
+            });
         }
     }
 } 

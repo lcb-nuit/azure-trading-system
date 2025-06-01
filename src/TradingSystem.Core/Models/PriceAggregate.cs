@@ -4,7 +4,7 @@ namespace TradingSystem.Core.Models
 {
     public class PriceAggregate
     {
-        public string Ticker { get; set; }
+        public required string Ticker { get; set; }
         public DateTime Timestamp { get; set; }
         public decimal Open { get; set; }
         public decimal Close { get; set; }

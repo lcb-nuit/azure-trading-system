@@ -7,20 +7,21 @@ using TradingSystem.Core.Models;
 using TradingSystem.Core.Interfaces;
 using TradingSystem.Core.Configuration;
 using Websocket.Client;
+using System.Net.WebSockets;
 
 namespace TradingSystem.DataIngestion
 {
     public class PolygonWebSocketClient : IPolygonWebSocketClient, IDisposable
     {
         private readonly PolygonConfig _config;
-        private WebsocketClient _client;
+        private WebsocketClient _client = null!;
         private readonly ConcurrentQueue<string> _messageQueue = new();
-        private Task _workerTask;
+        private Task _workerTask = Task.CompletedTask;
         private bool _running = false;
 
-        public event Action<PriceAggregate> OnAggregateReceived;
-        public event Action<Quote> OnQuoteReceived;
-        public event Action<Trade> OnTradeReceived;
+        public event Action<PriceAggregate>? OnAggregateReceived;
+        public event Action<Quote>? OnQuoteReceived;
+        public event Action<Trade>? OnTradeReceived;
 
         public PolygonWebSocketClient(IOptions<PolygonConfig> config)
         {
@@ -50,7 +51,7 @@ namespace TradingSystem.DataIngestion
             var authMsg = $"{{\"action\":\"auth\",\"params\":\"{_config.ApiKey}\"}}";
             await _client.SendInstant(authMsg);
             // Subscribe
-            if (_config.Channels != null && _config.Channels.Length > 0)
+            if (_config.Channels != null && _config.Channels.Count > 0)
             {
                 var channels = string.Join(",", _config.Channels);
                 var subMsg = $"{{\"action\":\"subscribe\",\"params\":\"{channels}\"}}";
@@ -80,9 +81,9 @@ namespace TradingSystem.DataIngestion
                             DispatchMessage(doc.RootElement);
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-                        // TODO: Add logging
+                        // TODO: Add logging or reconnect logic
                     }
                 }
                 await Task.Delay(5); // Tune as needed
@@ -97,15 +98,18 @@ namespace TradingSystem.DataIngestion
             {
                 case "A": // Aggregate
                     var agg = JsonSerializer.Deserialize<PriceAggregate>(element.GetRawText());
-                    OnAggregateReceived?.Invoke(agg);
+                    if (agg != null)
+                        OnAggregateReceived?.Invoke(agg);
                     break;
                 case "Q": // Quote
                     var quote = JsonSerializer.Deserialize<Quote>(element.GetRawText());
-                    OnQuoteReceived?.Invoke(quote);
+                    if (quote != null)
+                        OnQuoteReceived?.Invoke(quote);
                     break;
                 case "T": // Trade
                     var trade = JsonSerializer.Deserialize<Trade>(element.GetRawText());
-                    OnTradeReceived?.Invoke(trade);
+                    if (trade != null)
+                        OnTradeReceived?.Invoke(trade);
                     break;
                 default:
                     break;

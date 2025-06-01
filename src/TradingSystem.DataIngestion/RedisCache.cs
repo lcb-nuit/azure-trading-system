@@ -23,11 +23,13 @@ namespace TradingSystem.DataIngestion
             await _db.StringSetAsync(key, json);
         }
 
-        public async Task<T> GetAsync<T>(string key)
+        public async Task<T?> GetAsync<T>(string key)
         {
             var value = await _db.StringGetAsync(key);
             if (value.IsNullOrEmpty) return default;
-            return System.Text.Json.JsonSerializer.Deserialize<T>(value);
+            var jsonString = value.ToString();
+            if (string.IsNullOrEmpty(jsonString)) return default;
+            return System.Text.Json.JsonSerializer.Deserialize<T>(jsonString);
         }
 
         public async Task RemoveAsync(string key)

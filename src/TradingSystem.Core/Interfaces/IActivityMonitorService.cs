@@ -10,8 +10,8 @@ namespace TradingSystem.Core.Interfaces
     }
     public class ActivityAlert
     {
-        public string Ticker { get; set; }
+        public required string Ticker { get; set; }
         public double VolumeRatio { get; set; }
-        public string Notes { get; set; }
+        public required string Notes { get; set; }
     }
 } 

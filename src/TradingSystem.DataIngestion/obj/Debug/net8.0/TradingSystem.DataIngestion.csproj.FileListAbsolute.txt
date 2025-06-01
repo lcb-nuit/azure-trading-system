@@ -4,3 +4,13 @@ C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.DataIngestio
 C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.DataIngestion\obj\Debug\net8.0\TradingSystem.DataIngestion.AssemblyInfo.cs
 C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.DataIngestion\obj\Debug\net8.0\TradingSystem.DataIngestion.csproj.CoreCompileInputs.cache
 C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.DataIngestion\obj\Debug\net8.0\TradingSystem.DataIngestion.sourcelink.json
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.DataIngestion\bin\Debug\net8.0\TradingSystem.DataIngestion.deps.json
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.DataIngestion\bin\Debug\net8.0\TradingSystem.DataIngestion.dll
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.DataIngestion\bin\Debug\net8.0\TradingSystem.DataIngestion.pdb
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.DataIngestion\bin\Debug\net8.0\TradingSystem.Core.dll
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.DataIngestion\bin\Debug\net8.0\TradingSystem.Core.pdb
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.DataIngestion\obj\Debug\net8.0\TradingS.4B004BA2.Up2Date
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.DataIngestion\obj\Debug\net8.0\TradingSystem.DataIngestion.dll
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.DataIngestion\obj\Debug\net8.0\refint\TradingSystem.DataIngestion.dll
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.DataIngestion\obj\Debug\net8.0\TradingSystem.DataIngestion.pdb
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.DataIngestion\obj\Debug\net8.0\ref\TradingSystem.DataIngestion.dll

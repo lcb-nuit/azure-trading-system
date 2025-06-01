@@ -1,0 +1,12 @@
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Core\bin\Release\net9.0\TradingSystem.Core.deps.json
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Core\bin\Release\net9.0\TradingSystem.Core.dll
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Core\bin\Release\net9.0\TradingSystem.Core.pdb
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Core\obj\Release\net9.0\TradingSystem.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Core\obj\Release\net9.0\TradingSystem.Core.AssemblyInfoInputs.cache
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Core\obj\Release\net9.0\TradingSystem.Core.AssemblyInfo.cs
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Core\obj\Release\net9.0\TradingSystem.Core.csproj.CoreCompileInputs.cache
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Core\obj\Release\net9.0\TradingSystem.Core.sourcelink.json
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Core\obj\Release\net9.0\TradingSystem.Core.dll
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Core\obj\Release\net9.0\refint\TradingSystem.Core.dll
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Core\obj\Release\net9.0\TradingSystem.Core.pdb
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Core\obj\Release\net9.0\ref\TradingSystem.Core.dll

@@ -1,0 +1,21 @@
+# Azure Trading System Configuration
+# Generated: 06/02/2025 17:06:52
+# Script Version: Enhanced with Options
+
+ResourceGroup = "trading-hero-rgp"
+Location = "eastus2"
+StorageAccount = "tradingstor8632"
+ContainerRegistry = "tradingacr8632"
+ContainerRegistryUrl = "tradingacr8632.azurecr.io"
+KeyVault = "kvtrading8632"
+ServicePrincipal = "sp-trading-system-8632"
+
+# Optional Services
+ADXCluster = "tradingadx8632"
+ADXDatabase = "TradingData"
+RedisCache = "trading-redis-8632"
+SQLServer = "trading-sql-8632"
+SQLDatabase = "TradingSystemDB"
+ContainerAppsEnv = "trading-env-8632"
+
+# Errors: 0

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TradingSystem.Functions")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+08c4abed954cbc8d4b9512d71fa39d8e6102948b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+72760588101e034e7d221007c037f3ed8fe0fd43")]
 [assembly: System.Reflection.AssemblyProductAttribute("TradingSystem.Functions")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TradingSystem.Functions")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

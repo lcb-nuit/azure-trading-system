@@ -1,0 +1,312 @@
+{
+  "Metadata": {
+    "Subscription": "1ee6b1a1-b5b5-4373-b2ab-e53938a8b4e6",
+    "ResourceGroup": "rg-trading-hero",
+    "Account": "brown.larryc@gmail.com",
+    "Timestamp": "2025-06-02 07:27:34"
+  },
+  "Services": {
+    "RedisCache": {
+      "Properties": {
+        "PublicNetworkAccess": "Enabled",
+        "StaticIP": null,
+        "RedisVersion": "6.0",
+        "MinimumTlsVersion": "1.2",
+        "AccessKeys": "Hidden for security",
+        "HostName": "trading-redis-9383.redis.cache.windows.net",
+        "EnableNonSslPort": false,
+        "Instances": [
+          {
+            "isMaster": true,
+            "isPrimary": true,
+            "nonSslPort": null,
+            "shardId": null,
+            "sslPort": 15000,
+            "zone": null
+          }
+        ],
+        "Sku": {
+          "Capacity": 0,
+          "Name": "Basic",
+          "Family": "C"
+        },
+        "SslPort": 6380,
+        "RedisConfiguration": {
+          "aadEnabled": null,
+          "additionalProperties": null,
+          "aofBackupEnabled": null,
+          "aofStorageConnectionString0": null,
+          "aofStorageConnectionString1": null,
+          "authnotrequired": null,
+          "maxclients": "256",
+          "maxfragmentationmemoryReserved": "30",
+          "maxmemoryDelta": "30",
+          "maxmemoryPolicy": null,
+          "maxmemoryReserved": "30",
+          "notifyKeyspaceEvents": null,
+          "preferredDataArchiveAuthMethod": null,
+          "preferredDataPersistenceAuthMethod": null,
+          "rdbBackupEnabled": null,
+          "rdbBackupFrequency": null,
+          "rdbBackupMaxSnapshotCount": null,
+          "rdbStorageConnectionString": null,
+          "storageSubscriptionId": null,
+          "zonalConfiguration": null
+        },
+        "Port": 6379,
+        "ProvisioningState": "Succeeded",
+        "SubnetId": null
+      },
+      "BasicInfo": {
+        "ResourceId": "/subscriptions/1ee6b1a1-b5b5-4373-b2ab-e53938a8b4e6/resourceGroups/rg-trading-hero/providers/Microsoft.Cache/Redis/trading-redis-9383",
+        "LastModified": null,
+        "Tags": {},
+        "CreatedTime": null,
+        "Location": "East US 2",
+        "Name": "trading-redis-9383"
+      }
+    },
+    "StorageAccount": {
+      "Usage": {
+        "Unit": "GB",
+        "Limit": null,
+        "UsedGB": 0.0
+      },
+      "Properties": {
+        "StatusOfPrimary": "available",
+        "SkuTier": "Standard",
+        "CreationTime": "2025-06-01T22:19:27.660657-05:00",
+        "NetworkAcls": null,
+        "SkuName": "Standard_LRS",
+        "MinimumTlsVersion": "TLS1_0",
+        "Kind": "StorageV2",
+        "SupportsHttpsTrafficOnly": null,
+        "Encryption": {
+          "Services": [
+            "blob",
+            "file",
+            "queue",
+            "table"
+          ],
+          "KeySource": "Microsoft.Storage"
+        },
+        "AccessTier": "Hot",
+        "AllowBlobPublicAccess": false,
+        "ProvisioningState": "Succeeded",
+        "PrimaryLocation": "eastus2"
+      },
+      "BasicInfo": {
+        "ResourceId": "/subscriptions/1ee6b1a1-b5b5-4373-b2ab-e53938a8b4e6/resourceGroups/rg-trading-hero/providers/Microsoft.Storage/storageAccounts/tradingstor9383",
+        "LastModified": null,
+        "Tags": {},
+        "CreatedTime": null,
+        "Location": "eastus2",
+        "Name": "tradingstor9383"
+      },
+      "Endpoints": {
+        "blob": "https://tradingstor9383.blob.core.windows.net/",
+        "dfs": "https://tradingstor9383.dfs.core.windows.net/",
+        "file": "https://tradingstor9383.file.core.windows.net/",
+        "internetEndpoints": null,
+        "microsoftEndpoints": null,
+        "queue": "https://tradingstor9383.queue.core.windows.net/",
+        "table": "https://tradingstor9383.table.core.windows.net/",
+        "web": "https://tradingstor9383.z20.web.core.windows.net/"
+      }
+    },
+    "SQLServer": {
+      "Databases": [
+        {
+          "CreationDate": "2025-06-01T23:13:34.78-05:00",
+          "MaxSizeBytes": 268435456000,
+          "CurrentBackupStorageRedundancy": "Geo",
+          "Name": "TradingSystemDB",
+          "Edition": "Standard",
+          "Status": "Online",
+          "MaxSizeGB": 250.0,
+          "ServiceObjectiveName": "S0",
+          "EarliestRestoreDate": "2025-06-01T23:30:23-05:00",
+          "ZoneRedundant": false
+        }
+      ],
+      "Properties": {
+        "Version": "12.0",
+        "MinimalTlsVersion": "1.2",
+        "AdministratorLogin": "sqladmin",
+        "RestrictOutboundNetworkAccess": "Disabled",
+        "State": "Ready",
+        "PublicNetworkAccess": "Enabled",
+        "FullyQualifiedDomainName": "trading-sql-9383.database.windows.net"
+      },
+      "BasicInfo": {
+        "ResourceId": "/subscriptions/1ee6b1a1-b5b5-4373-b2ab-e53938a8b4e6/resourceGroups/rg-trading-hero/providers/Microsoft.Sql/servers/trading-sql-9383",
+        "LastModified": null,
+        "Tags": null,
+        "CreatedTime": null,
+        "Location": "eastus2",
+        "Name": "trading-sql-9383"
+      },
+      "FirewallRules": [
+        {
+          "Name": "AllowAzureServices",
+          "EndIpAddress": "0.0.0.0",
+          "StartIpAddress": "0.0.0.0"
+        }
+      ]
+    },
+    "AzureDataExplorer": {
+      "Databases": [],
+      "Properties": {
+        "Uri": "https://tradingadx9383.eastus2.kusto.windows.net",
+        "DataIngestionUri": "https://ingest-tradingadx9383.eastus2.kusto.windows.net",
+        "EngineType": "V3",
+        "State": "Stopped",
+        "EnablePurge": false,
+        "EnableDoubleEncryption": false,
+        "StateReason": "Suspended at 2025-06-02 04:59:38 +00:00",
+        "PublicNetworkAccess": "Enabled",
+        "Sku": {
+          "Capacity": 1,
+          "Name": "Dev(No SLA)_Standard_E2a_v4",
+          "Tier": "Basic"
+        },
+        "TrustedExternalTenants": [
+          {
+            "value": "*"
+          }
+        ],
+        "EnableStreamingIngest": false,
+        "ProvisioningState": "Succeeded",
+        "EnableDiskEncryption": false
+      },
+      "BasicInfo": {
+        "ResourceId": "/subscriptions/1ee6b1a1-b5b5-4373-b2ab-e53938a8b4e6/resourceGroups/rg-trading-hero/providers/Microsoft.Kusto/Clusters/tradingadx9383",
+        "LastModified": null,
+        "Tags": {},
+        "CreatedTime": null,
+        "Location": "East US 2",
+        "Name": "tradingadx9383"
+      }
+    },
+    "KeyVault": {
+      "Secrets": [
+        {
+          "enabled": true,
+          "name": "AcrLoginServer"
+        },
+        {
+          "enabled": true,
+          "name": "AcrPassword"
+        },
+        {
+          "enabled": true,
+          "name": "AcrUsername"
+        },
+        {
+          "enabled": true,
+          "name": "AdxClusterUri"
+        },
+        {
+          "enabled": true,
+          "name": "AdxDatabase"
+        },
+        {
+          "enabled": true,
+          "name": "AzureClientId"
+        },
+        {
+          "enabled": true,
+          "name": "AzureClientSecret"
+        },
+        {
+          "enabled": true,
+          "name": "AzureTenantId"
+        },
+        {
+          "enabled": true,
+          "name": "RedisConnection"
+        },
+        {
+          "enabled": true,
+          "name": "SqlConnection"
+        },
+        {
+          "enabled": true,
+          "name": "StorageConnection"
+        }
+      ],
+      "Properties": {
+        "NetworkAcls": null,
+        "EnabledForDiskEncryption": null,
+        "EnableRbacAuthorization": false,
+        "TenantId": "815c6c7f-1cd7-46c3-88e7-0bf8d39792a2",
+        "VaultUri": "https://kvtrading9383.vault.azure.net/",
+        "EnableSoftDelete": true,
+        "Sku": "standard",
+        "SoftDeleteRetentionInDays": 90,
+        "ProvisioningState": "Succeeded",
+        "PublicNetworkAccess": "Enabled",
+        "EnabledForTemplateDeployment": null,
+        "EnabledForDeployment": false
+      },
+      "Certificates": [],
+      "Keys": [],
+      "BasicInfo": {
+        "ResourceId": "/subscriptions/1ee6b1a1-b5b5-4373-b2ab-e53938a8b4e6/resourceGroups/rg-trading-hero/providers/Microsoft.KeyVault/vaults/kvtrading9383",
+        "LastModified": "2025-06-01T22:20:14.062-05:00",
+        "Tags": {},
+        "CreatedTime": "2025-06-01T22:20:14.062-05:00",
+        "Location": "eastus2",
+        "Name": "kvtrading9383"
+      }
+    },
+    "ContainerApps": {
+      "Apps": [],
+      "Properties": {
+        "ProvisioningState": "Succeeded",
+        "VnetConfiguration": null,
+        "InternalLoadBalancerEnabled": null,
+        "ZoneRedundant": false,
+        "StaticIp": "20.57.109.36",
+        "AppLogsConfiguration": "log-analytics",
+        "DefaultDomain": "braveplant-be2b321d.eastus2.azurecontainerapps.io"
+      },
+      "BasicInfo": {
+        "ResourceId": "/subscriptions/1ee6b1a1-b5b5-4373-b2ab-e53938a8b4e6/resourceGroups/rg-trading-hero/providers/Microsoft.App/managedEnvironments/trading-env-9383",
+        "LastModified": "2025-06-02T04:13:57.9951428",
+        "Tags": null,
+        "CreatedTime": "2025-06-02T04:13:57.9951428",
+        "Location": "East US 2",
+        "Name": "trading-env-9383"
+      }
+    },
+    "ContainerRegistry": {
+      "Repositories": [],
+      "StorageUsage": {
+        "UsedGB": 0.0,
+        "LimitGB": 10.0
+      },
+      "Properties": {
+        "CreationDate": "2025-06-01T22:19:51.894627-05:00",
+        "LoginServer": "tradingacr9383.azurecr.io",
+        "SkuName": "Basic",
+        "PublicNetworkAccess": "Enabled",
+        "AnonymousPullEnabled": false,
+        "NetworkRuleSet": null,
+        "DataEndpointEnabled": false,
+        "ProvisioningState": "Succeeded",
+        "SkuTier": "Basic",
+        "AdminUserEnabled": true,
+        "ZoneRedundancy": "Disabled"
+      },
+      "BasicInfo": {
+        "ResourceId": "/subscriptions/1ee6b1a1-b5b5-4373-b2ab-e53938a8b4e6/resourceGroups/rg-trading-hero/providers/Microsoft.ContainerRegistry/registries/tradingacr9383",
+        "LastModified": "2025-06-01T22:19:51.894627-05:00",
+        "Tags": {},
+        "CreatedTime": "2025-06-01T22:19:51.894627-05:00",
+        "Location": "eastus2",
+        "Name": "tradingacr9383"
+      }
+    }
+  }
+}

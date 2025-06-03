@@ -1,6 +1,7 @@
 C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Core\bin\Debug\net9.0\TradingSystem.Core.deps.json
 C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Core\bin\Debug\net9.0\TradingSystem.Core.dll
 C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Core\bin\Debug\net9.0\TradingSystem.Core.pdb
+C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Core\obj\Debug\net9.0\TradingSystem.Core.csproj.AssemblyReference.cache
 C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Core\obj\Debug\net9.0\TradingSystem.Core.GeneratedMSBuildEditorConfig.editorconfig
 C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Core\obj\Debug\net9.0\TradingSystem.Core.AssemblyInfoInputs.cache
 C:\_DEVELOPMENT\VSCODE\AZURE\azure-trading-system\src\TradingSystem.Core\obj\Debug\net9.0\TradingSystem.Core.AssemblyInfo.cs

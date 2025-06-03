@@ -1,0 +1,17 @@
+{
+  "Timestamp": "2025-06-02 06:58:23",
+  "EstimatedDailyCost": 9.0,
+  "Action": "Restart",
+  "User": "brown.larryc@gmail.com",
+  "ServicesStarted": 2,
+  "Services": [
+    {
+      "Type": "ADX",
+      "Name": "tradingadx9383"
+    },
+    {
+      "Type": "ADX",
+      "Name": "tradingadx9383"
+    }
+  ]
+}

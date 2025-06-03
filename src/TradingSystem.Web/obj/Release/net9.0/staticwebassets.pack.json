@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\_DEVELOPMENT\\VSCODE\\AZURE\\azure-trading-system\\src\\TradingSystem.Web\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "obj\\Release\\net9.0\\staticwebassets\\msbuild.TradingSystem.Web.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Release\\net9.0\\staticwebassets\\msbuild.TradingSystem.Web.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Release\\net9.0\\staticwebassets\\msbuild.build.TradingSystem.Web.props",
+      "PackagePath": "build\\TradingSystem.Web.props"
+    },
+    {
+      "Id": "obj\\Release\\net9.0\\staticwebassets\\msbuild.buildMultiTargeting.TradingSystem.Web.props",
+      "PackagePath": "buildMultiTargeting\\TradingSystem.Web.props"
+    },
+    {
+      "Id": "obj\\Release\\net9.0\\staticwebassets\\msbuild.buildTransitive.TradingSystem.Web.props",
+      "PackagePath": "buildTransitive\\TradingSystem.Web.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
